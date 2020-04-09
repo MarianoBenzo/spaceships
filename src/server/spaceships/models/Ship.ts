@@ -20,7 +20,6 @@ class Ship {
   rotatingRight: boolean;
   rotatingLeft: boolean;
 
-
   constructor(id: string, x: number, y: number, angle: number, size: number, color: string) {
     this.id = id;
     this.x = x;
