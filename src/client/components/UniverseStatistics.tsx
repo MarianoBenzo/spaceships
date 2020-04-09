@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useContext} from "react";
-import {SocketContext} from "../services/SocketService";
+import {SocketContext} from "./SocketProvider";
 
 const styles = require('./styles/universeStatistics.scss');
 

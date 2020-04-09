@@ -26,6 +26,26 @@ class Universe {
     this.ships = this.ships.filter(ship => ship.id !== id);
   }
 
+  setShipAccelerating(id: string, accelerating: boolean) {
+    const ship = this.ships.find(ship => ship.id === id);
+    ship.setAccelerating(accelerating);
+  }
+
+  setShipDecelerating(id: string, decelerating: boolean) {
+    const ship = this.ships.find(ship => ship.id === id);
+    ship.setDecelerating(decelerating);
+  }
+
+  setShipRotatingRight(id: string, rotatingRight: boolean) {
+    const ship = this.ships.find(ship => ship.id === id);
+    ship.setRotatingRight(rotatingRight);
+  }
+
+  setShipRotatingLeft(id: string, rotatingLeft: boolean) {
+    const ship = this.ships.find(ship => ship.id === id);
+    ship.setRotatingLeft(rotatingLeft);
+  }
+
   update() {
     this.ships.forEach(ship => ship.update(this.width, this.height));
   }

@@ -1,9 +1,7 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import * as io from "socket.io-client";
-import CanvasService from "./CanvasService";
 import UniverseStatistics from "../models/UniverseStatistics";
-import Universe from "../models/Universe";
+import SocketService from "../services/SocketService";
 
 interface Props {
   children: JSX.Element[] | JSX.Element
@@ -17,31 +15,15 @@ export const SocketContext = React.createContext<SocketContextProps>({
   universeStatistics: null
 });
 
-const SocketService = (props: Props) => {
+const SocketProvider = (props: Props) => {
 
   const {children} = props;
 
   const [universeStatistics, setUniverseStatistics] = useState(null);
 
   useEffect(() => {
-    init();
+    SocketService.onSpaceshipsStatistics(setUniverseStatistics);
   }, []);
-
-  const init = () => {
-    const socket = io();
-
-    socket.on('connect', () => {
-
-      socket.on('spaceships::universe', (universe: Universe) => {
-        console.log(universe);
-        CanvasService.drawUniverse(universe, socket.id);
-      });
-
-      socket.on('spaceships::statistics', (universeStatistics: UniverseStatistics) => {
-        setUniverseStatistics(universeStatistics);
-      });
-    });
-  };
 
   const context: SocketContextProps = {
     universeStatistics: universeStatistics
@@ -54,4 +36,4 @@ const SocketService = (props: Props) => {
   )
 };
 
-export default SocketService;
+export default SocketProvider;

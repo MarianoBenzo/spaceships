@@ -15,12 +15,11 @@ class Ship {
   size: number;
   radius: number;
   color: string;
-  state: {
-    accelerating: boolean;
-    decelerating: boolean;
-    rotatingRight: boolean;
-    rotatingLeft: boolean;
-  };
+  accelerating: boolean;
+  decelerating: boolean;
+  rotatingRight: boolean;
+  rotatingLeft: boolean;
+
 
   constructor(id: string, x: number, y: number, angle: number, size: number, color: string) {
     this.id = id;
@@ -39,35 +38,33 @@ class Ship {
     this.size = size;
     this.radius = size;
     this.color = color;
-    this.state = {
-      accelerating: false,
-      decelerating: false,
-      rotatingRight: false,
-      rotatingLeft: false
-    }
+    this.accelerating = false;
+    this.decelerating = false;
+    this.rotatingRight = false;
+    this.rotatingLeft = false;
   }
 
-  setStateAccelerating(accelerating: boolean) {
-    this.state.accelerating = accelerating;
+  setAccelerating(accelerating: boolean) {
+    this.accelerating = accelerating;
   }
 
-  setStateDecelerating(decelerating: boolean) {
-    this.state.decelerating = decelerating;
+  setDecelerating(decelerating: boolean) {
+    this.decelerating = decelerating;
   }
 
-  setStateRotatingRight(rotatingRight: boolean) {
-    this.state.rotatingRight = rotatingRight;
+  setRotatingRight(rotatingRight: boolean) {
+    this.rotatingRight = rotatingRight;
   }
 
-  setStateRotatingLeft(rotatingLeft: boolean) {
-    this.state.rotatingLeft = rotatingLeft;
+  setRotatingLeft(rotatingLeft: boolean) {
+    this.rotatingLeft = rotatingLeft;
   }
 
   update(universeWidth: number, universeHeight: number) {
-    if (this.state.accelerating) { this.accelerate(false);     }
-    if (this.state.decelerating) { this.accelerate(true); }
-    if (this.state.rotatingRight) { this.rotate("right");  }
-    if (this.state.rotatingLeft) { this.rotate("left");   }
+    if (this.accelerating) { this.accelerate(false);     }
+    if (this.decelerating) { this.accelerate(true); }
+    if (this.rotatingRight) { this.rotate("right");  }
+    if (this.rotatingLeft) { this.rotate("left");   }
 
     this.move(universeWidth, universeHeight);
   }

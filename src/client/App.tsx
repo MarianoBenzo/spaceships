@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import SocketService from "./services/SocketService";
+import SocketProvider from "./components/SocketProvider";
 import {UniverseStatistics} from "./components/UniverseStatistics";
 import {Canvas} from "./components/Canvas";
 
 const App = () => {
   return (
-    <SocketService>
+    <SocketProvider>
       <UniverseStatistics/>
       <Canvas/>
-    </SocketService>
+    </SocketProvider>
   )
 };
 

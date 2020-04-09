@@ -15,12 +15,12 @@ class CanvasService {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.viewport = {
-      x: 0,
-      y: 0
+      x: this.width / 2,
+      y: this.height / 2
     };
   }
 
-  initialize(canvas: HTMLCanvasElement,) {
+  initialize(canvas: HTMLCanvasElement) {
     canvas.style.width = '100%';
     canvas.style.height = '100%';
     canvas.style.background = "#eee";
@@ -45,8 +45,7 @@ class CanvasService {
 
       universe.ships.forEach( (ship: Ship) => {
           this.drawShip(ship);
-        }
-      );
+      });
     }
   }
 
@@ -65,7 +64,6 @@ class CanvasService {
   drawShip(ship: Ship) {
     this.ctx.save();
     this.ctx.translate(ship.x + this.viewport.x, ship.y + this.viewport.y);
-    //this.ctx.translate(ship.x, ship.y);
     this.ctx.rotate(ship.angle);
     this.ctx.lineWidth = 3;
     this.ctx.beginPath();

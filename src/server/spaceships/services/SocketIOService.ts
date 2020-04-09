@@ -15,11 +15,40 @@ class SocketIOService {
   }
 
   onConnection() {
-    this.io.on('connection', (socket) => {
+    this.io.on('connection', (socket: SocketIO.Socket) => {
       console.log('New connection: ', socket.id);
       Universe.addShip(socket.id);
 
+      this.onAccelerating(socket);
+      this.onDecelerating(socket);
+      this.onRotatingRight(socket);
+      this.onRotatingLeft(socket);
+
       this.onDisconnect(socket);
+    });
+  }
+
+  onAccelerating(socket: SocketIO.Socket) {
+    socket.on('spaceships::ship::accelerating', (accelerating: boolean) => {
+      Universe.setShipAccelerating(socket.id, accelerating);
+    });
+  }
+
+  onDecelerating(socket: SocketIO.Socket) {
+    socket.on('spaceships::ship::decelerating',  (decelerating: boolean) => {
+      Universe.setShipDecelerating(socket.id, decelerating);
+    });
+  }
+
+  onRotatingRight(socket: SocketIO.Socket) {
+    socket.on('spaceships::ship::rotating::right',  (rotatingRight: boolean) => {
+      Universe.setShipRotatingRight(socket.id, rotatingRight);
+    });
+  }
+
+  onRotatingLeft(socket: SocketIO.Socket) {
+    socket.on('spaceships::ship::rotating::left',  (rotatingLeft: boolean) => {
+      Universe.setShipRotatingLeft(socket.id, rotatingLeft);
     });
   }
 
