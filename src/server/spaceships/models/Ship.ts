@@ -1,5 +1,6 @@
 class Ship {
   id: string;
+  name: string;
   x: number;
   y: number;
   vx: number;
@@ -20,8 +21,9 @@ class Ship {
   rotatingRight: boolean;
   rotatingLeft: boolean;
 
-  constructor(id: string, x: number, y: number, angle: number, size: number, color: string) {
+  constructor(id: string, name: string, x: number, y: number, angle: number, size: number, color: string) {
     this.id = id;
+    this.name = name;
     this.x = x;
     this.y = y;
     this.vx = 0;

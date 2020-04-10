@@ -17,14 +17,20 @@ class SocketIOService {
   onConnection() {
     this.io.on('connection', (socket: SocketIO.Socket) => {
       console.log('New connection: ', socket.id);
-      Universe.addShip(socket.id);
 
+      this.onAddShip(socket);
       this.onAccelerating(socket);
       this.onDecelerating(socket);
       this.onRotatingRight(socket);
       this.onRotatingLeft(socket);
 
       this.onDisconnect(socket);
+    });
+  }
+
+  onAddShip(socket: SocketIO.Socket) {
+    socket.on('spaceships::ship', (name: string) => {
+      Universe.addShip(socket.id, name);
     });
   }
 
@@ -64,6 +70,10 @@ class SocketIOService {
       this.io.sockets.emit('spaceships::universe', Universe);
     };
     setInterval(emit, 1000/60);
+  }
+
+  emitShipDead(id: string) {
+    this.io.to(id).emit('spaceships::ship::dead');
   }
 
   emitStatistics() {

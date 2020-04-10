@@ -1,5 +1,5 @@
-import Universe from "../models/Universe";
-import Ship from "../models/Ship";
+import Universe from '../models/Universe';
+import Ship from '../models/Ship';
 
 class CanvasService {
   ctx: CanvasRenderingContext2D;
@@ -23,7 +23,7 @@ class CanvasService {
   initialize(canvas: HTMLCanvasElement) {
     canvas.style.width = '100%';
     canvas.style.height = '100%';
-    canvas.style.background = "#eee";
+    canvas.style.background = '#eee';
     canvas.width = this.width;
     canvas.height = this.height;
 
@@ -92,6 +92,10 @@ class CanvasService {
 
     this.ctx.save();
     this.ctx.translate(ship.x + this.viewport.x, ship.y + this.viewport.y);
+    this.ctx.font = '15px sans-serif';
+    this.ctx.textAlign = 'center';
+    this.ctx.fillStyle = '#000000';
+    this.ctx.fillText(ship.name, 0, 35);
     this.ctx.rotate(ship.angle);
     this.ctx.lineWidth = 3;
     this.ctx.strokeStyle = '#000000';

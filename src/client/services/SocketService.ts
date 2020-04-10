@@ -29,6 +29,16 @@ class SocketService {
     });
   }
 
+  onShipDead(setPlaying: Function) {
+    this.socket.on('spaceships::ship::dead', () => {
+      setPlaying(false);
+    });
+  }
+
+  emitAddShip(name: string) {
+    this.socket.emit('spaceships::ship', name)
+  }
+
   emitAccelerating(accelerating: boolean) {
     this.socket.emit('spaceships::ship::accelerating', accelerating)
   }

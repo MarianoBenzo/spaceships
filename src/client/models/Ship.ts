@@ -1,5 +1,6 @@
 class Ship {
   id: string;
+  name: string;
   x: number;
   y: number;
   angle: number;
@@ -9,6 +10,7 @@ class Ship {
 
   constructor(ship: any) {
     this.id = ship.id;
+    this.name = ship.name;
     this.x = ship.x;
     this.y = ship.y;
     this.angle = ship.angle;
