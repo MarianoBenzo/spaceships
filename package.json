@@ -4,7 +4,8 @@
   "description": "Spaceships",
   "main": "App.tsx",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon --exec babel-node src/server/Server.ts"
+    "dev": "NODE_ENV=development nodemon --exec babel-node src/server/Server.ts",
+    "start": "NODE_ENV=production babel-node src/server/Server.ts"
   },
   "keywords": [],
   "author": "Mariano Benzo",
