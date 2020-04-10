@@ -11,7 +11,7 @@ const app = express();
 // settings
 app.set('port', process.env.PORT || 3000);
 
-// middleware
+// middlewares
 app.use(webpackDevMiddleware(webpack(webpackConfig)));
 
 // starting the server
