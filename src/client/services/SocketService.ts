@@ -1,5 +1,5 @@
 import CanvasService from "./CanvasService";
-import UniverseStatistics from "../models/UniverseStatistics";
+import Game from "../models/Game";
 import Universe from "../models/Universe";
 import * as io from "socket.io-client";
 
@@ -23,15 +23,10 @@ class SocketService {
     });
   }
 
-  onSpaceshipsStatistics(setUniverseStatistics: Function) {
-    this.socket.on('spaceships::statistics', (universeStatistics: UniverseStatistics) => {
-      setUniverseStatistics(universeStatistics);
-    });
-  }
-
-  onShipDead(setPlaying: Function) {
-    this.socket.on('spaceships::ship::dead', () => {
-      setPlaying(false);
+  onSpaceshipsGame(setGame: Function, setId: Function) {
+    this.socket.on('spaceships::game', (game: Game) => {
+      setGame(game);
+      setId(this.socket.id);
     });
   }
 

@@ -2,7 +2,7 @@ import SocketIO from 'socket.io';
 import {Server} from 'http';
 
 const Universe = require("../models/Universe.ts");
-const UniverseStatistics = require("../models/UniverseStatistics.ts");
+const Game = require("../models/Game.ts");
 
 class SocketIOService {
   io: SocketIO.Server;
@@ -11,7 +11,7 @@ class SocketIOService {
     this.io = SocketIO(server);
     this.onConnection();
     this.emitUniverse();
-    this.emitStatistics();
+    this.emitGame();
   }
 
   onConnection() {
@@ -72,14 +72,10 @@ class SocketIOService {
     setInterval(emit, 1000/60);
   }
 
-  emitShipDead(id: string) {
-    this.io.to(id).emit('spaceships::ship::dead');
-  }
-
-  emitStatistics() {
+  emitGame() {
     const emit = () => {
-      const statistics = new UniverseStatistics(Universe);
-      this.io.sockets.emit('spaceships::statistics', statistics);
+      const game = new Game(Universe);
+      this.io.sockets.emit('spaceships::game', game);
     };
     setInterval(emit, 1000/10)
   }

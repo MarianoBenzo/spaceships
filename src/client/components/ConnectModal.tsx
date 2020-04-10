@@ -1,17 +1,17 @@
 import * as React from 'react';
-import {useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import SocketService from "../services/SocketService";
+import {SocketContext} from "./SocketProvider";
 
 const styles = require('./styles/connectModal.scss');
 
 export const ConnectModal = () => {
 
-  const [playing, setPlaying] = useState(false);
+  const {game, id} = useContext(SocketContext);
+
   const [inputValue, setInputValue] = useState('');
 
-  useEffect(() => {
-    SocketService.onShipDead(setPlaying);
-  }, []);
+  const playing = game && game.players.includes(id);
 
   if(playing) {
     return null;
@@ -20,7 +20,6 @@ export const ConnectModal = () => {
   const connect = () => {
     const name = inputValue === '' ? 'Player' : inputValue;
     SocketService.emitAddShip(name);
-    setPlaying(true);
   }
 
   return (

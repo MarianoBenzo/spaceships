@@ -1,14 +1,17 @@
 const Universe = require("./Universe.ts");
 
-class UniverseStatistics {
+class Game {
   statistics: Statistics[];
+  players: string[];
 
   constructor(universe: typeof Universe) {
     const numberOfShips = universe.ships.length;
+    const players = universe.ships.map(ship => ship.id);
 
     this.statistics = [
       new Statistics("numberOfShips", numberOfShips)
     ];
+    this.players = players;
   }
 }
 
@@ -22,4 +25,4 @@ class Statistics {
   }
 }
 
-module.exports = UniverseStatistics;
+module.exports = Game;

@@ -1,7 +1,6 @@
 import Random from 'random';
 
 const Ship = require("./Ship.ts");
-const SocketIOService = require("../services/SocketIOService.ts");
 
 class Universe {
   width: number;
@@ -28,11 +27,6 @@ class Universe {
 
   removeShip(id: string) {
     this.ships = this.ships.filter(ship => ship.id !== id);
-  }
-
-  killShip(id: string) {
-    SocketIOService.emitShipDead(id);
-    this.removeShip(id);
   }
 
   setShipAccelerating(id: string, accelerating: boolean) {

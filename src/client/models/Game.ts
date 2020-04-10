@@ -1,10 +1,12 @@
-class UniverseStatistics {
+class Game {
   statistics: Statistics[];
+  players: string[];
 
-  constructor(universeStatistics: any) {
-    this.statistics = universeStatistics.map(
+  constructor(game: any) {
+    this.statistics = game.map(
       statistics => new Statistics(statistics)
     );
+    this.players = game.players;
   }
 }
 
@@ -18,4 +20,4 @@ class Statistics {
   }
 }
 
-export default UniverseStatistics;
+export default Game;
