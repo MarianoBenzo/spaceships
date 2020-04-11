@@ -49,15 +49,18 @@ class CanvasService {
       if (ship) {
         this.viewport.x = -ship.x + this.width / 2;
         this.viewport.y = -ship.y + this.height / 2;
+      } else {
+        this.viewport.x = (-universe.width + this.width) / 2;
+        this.viewport.y = (-universe.height + this.height) / 2;
       }
 
       this.drawBackground(universe.width, universe.height);
 
-      universe.ships.forEach( (ship: Ship) => {
-          this.drawShip(ship);
+      universe.ships.forEach((ship: Ship) => {
+        this.drawShip(ship);
       });
 
-      universe.projectiles.forEach( (projectile: Projectile) => {
+      universe.projectiles.forEach((projectile: Projectile) => {
         this.drawProjectile(projectile);
       });
     }
