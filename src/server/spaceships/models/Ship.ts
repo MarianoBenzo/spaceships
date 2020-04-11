@@ -1,8 +1,3 @@
-export {}
-
-const Projectile = require('./Projectile.ts')
-const Universe = require('./Universe.ts')
-
 class Ship {
   id: string;
   name: string;

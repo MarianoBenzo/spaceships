@@ -1,5 +1,3 @@
-const Universe = require('./Universe.ts')
-
 class Game {
   statistics: Statistics[];
   players: string[];
