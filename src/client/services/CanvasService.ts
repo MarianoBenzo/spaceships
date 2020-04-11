@@ -1,5 +1,6 @@
 import Universe from '../models/Universe';
 import Ship from '../models/Ship';
+import Projectile from '../models/Projectile';
 
 class CanvasService {
   ctx: CanvasRenderingContext2D;
@@ -55,6 +56,10 @@ class CanvasService {
       universe.ships.forEach( (ship: Ship) => {
           this.drawShip(ship);
       });
+
+      universe.projectiles.forEach( (projectile: Projectile) => {
+        this.drawProjectile(projectile);
+      });
     }
   }
 
@@ -89,7 +94,6 @@ class CanvasService {
   }
 
   drawShip(ship: Ship) {
-
     this.ctx.save();
     this.ctx.translate(ship.x + this.viewport.x, ship.y + this.viewport.y);
     this.ctx.font = '15px sans-serif';
@@ -116,6 +120,19 @@ class CanvasService {
       ship.size,
       ship.size
     );
+    this.ctx.restore();
+  }
+
+  drawProjectile(projectile: Projectile) {
+    this.ctx.save();
+    this.ctx.translate(projectile.x + this.viewport.x, projectile.y + this.viewport.y);
+    this.ctx.rotate(projectile.angle);
+    this.ctx.lineWidth = 3;
+    this.ctx.strokeStyle = '#000000';
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, 0);
+    this.ctx.lineTo(5, 0);
+    this.ctx.stroke();
     this.ctx.restore();
   }
 }

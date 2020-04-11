@@ -1,10 +1,10 @@
-const Universe = require("./Universe.ts");
+const Universe = require('./Universe.ts')
 
 class Game {
   statistics: Statistics[];
   players: string[];
 
-  constructor(universe: typeof Universe) {
+  constructor(universe: any) {
     const numberOfShips = universe.ships.length;
     const players = universe.ships.map(ship => ship.id);
 
@@ -25,4 +25,6 @@ class Statistics {
   }
 }
 
-module.exports = Game;
+module.exports = {
+  class: Game
+}

@@ -31,23 +31,27 @@ class SocketService {
   }
 
   emitAddShip(name: string) {
-    this.socket.emit('spaceships::ship', name)
+    this.socket.emit('spaceships::ship', name);
   }
 
   emitAccelerating(accelerating: boolean) {
-    this.socket.emit('spaceships::ship::accelerating', accelerating)
+    this.socket.emit('spaceships::ship::accelerating', accelerating);
   }
 
   emitDecelerating(decelerating: boolean) {
-    this.socket.emit('spaceships::ship::decelerating', decelerating)
+    this.socket.emit('spaceships::ship::decelerating', decelerating);
   }
 
   emitRotatingRight(rotatingRight: boolean) {
-    this.socket.emit('spaceships::ship::rotating::right', rotatingRight)
+    this.socket.emit('spaceships::ship::rotating::right', rotatingRight);
   }
 
   emitRotatingLeft(rotatingLeft: boolean) {
-    this.socket.emit('spaceships::ship::rotating::left', rotatingLeft)
+    this.socket.emit('spaceships::ship::rotating::left', rotatingLeft);
+  }
+
+  emitShoot() {
+    this.socket.emit('spaceships::ship::shoot');
   }
 }
 

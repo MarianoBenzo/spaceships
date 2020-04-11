@@ -3,7 +3,7 @@ import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 
-const SocketIOService = require("./spaceships/services/SocketIOService.ts");
+const SocketIOService = require('./spaceships/services/SocketIOService.ts')
 
 // initializing packages
 const app = express();
@@ -20,4 +20,4 @@ export const server = app.listen(app.get('port'), () => {
 });
 
 // socket io
-SocketIOService.init(server);
+SocketIOService.instance.init(server);

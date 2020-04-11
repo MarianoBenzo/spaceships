@@ -1,6 +1,12 @@
+export {}
+
+const Projectile = require('./Projectile.ts')
+const Universe = require('./Universe.ts')
+
 class Ship {
   id: string;
   name: string;
+  life: number;
   x: number;
   y: number;
   vx: number;
@@ -24,6 +30,7 @@ class Ship {
   constructor(id: string, name: string, x: number, y: number, angle: number, size: number, color: string) {
     this.id = id;
     this.name = name;
+    this.life = 5;
     this.x = x;
     this.y = y;
     this.vx = 0;
@@ -61,16 +68,12 @@ class Ship {
     this.rotatingLeft = rotatingLeft;
   }
 
-  update(universeWidth: number, universeHeight: number) {
-    if (this.accelerating) { this.accelerate(false);     }
-    if (this.decelerating) { this.accelerate(true); }
-    if (this.rotatingRight) { this.rotate("right");  }
-    if (this.rotatingLeft) { this.rotate("left");   }
-
-    this.move(universeWidth, universeHeight);
-  }
-
   move(universeWidth: number, universeHeight: number) {
+    if (this.accelerating) this.accelerate(false);
+    if (this.decelerating) this.accelerate(true);
+    if (this.rotatingRight) this.rotate("right");
+    if (this.rotatingLeft) this.rotate("left");
+
     this.angle = (this.angle + this.rv) % (Math.PI * 2);
     this.vx += this.ax;
     this.vy += this.ay;
@@ -91,21 +94,30 @@ class Ship {
     if (backwards) {
       this.ax -= this.decelerationAmount;
       this.ay -= this.decelerationAmount;
-    }
-    else {
+    } else {
       this.ax += this.accelerationAmount;
       this.ay += this.accelerationAmount;
     }
   }
 
-  rotate(dir) {
+  rotate(dir: string) {
     if (dir === "left") {
       this.rv -= this.rotationSpeed;
-    }
-    else if (dir === "right") {
+    } else if (dir === "right") {
       this.rv += this.rotationSpeed;
     }
   }
+
+  projectileCollision(projectile: any): boolean {
+    const distance = Math.sqrt(Math.pow(this.x - projectile.x,2) + Math.pow(this.y - projectile.y,2));
+    if (distance <= this.radius) {
+      this.life -= 1;
+      return true;
+    }
+    return false;
+  }
 }
 
-module.exports = Ship;
+module.exports = {
+  class: Ship
+}
