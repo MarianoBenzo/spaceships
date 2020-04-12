@@ -3,9 +3,9 @@ import {useContext, useState} from "react";
 import SocketService from "../services/SocketService";
 import {SocketContext} from "./SocketProvider";
 
-const styles = require('./styles/connectModal.scss');
+const styles = require('./styles/startModal.scss');
 
-export const ConnectModal = () => {
+export const StartModal = () => {
 
   const {game, id} = useContext(SocketContext);
 
@@ -45,9 +45,9 @@ export const ConnectModal = () => {
         }
         { name &&
           <>
-            <div>Has muerto</div>
+            <div>You died</div>
             <button onClick={() => connect(name)}>
-              Volver a jugar
+              Respawn
             </button>
           </>
         }

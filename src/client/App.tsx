@@ -2,12 +2,12 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import SocketProvider from "./components/SocketProvider";
 import {Canvas} from "./components/Canvas";
-import {ConnectModal} from "./components/ConnectModal";
+import {StartModal} from "./components/StartModal";
 
 const App = () => {
   return (
     <SocketProvider>
-      <ConnectModal/>
+      <StartModal/>
       <Canvas/>
     </SocketProvider>
   )
