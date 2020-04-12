@@ -9,7 +9,7 @@ class Game {
     this.players = [];
   }
 
-  connectPlayer(id: string, name: string) {
+  startPlayer(id: string, name: string) {
     const exist = this.players.find(player => player.id === id);
     if(exist) {
       this.respawnPlayer(id, name);
@@ -43,8 +43,8 @@ class Game {
     this.players = this.players.filter(player => player.id !== id);
   }
 
-  getStats() {
-    return this.players.map(player => player.id);
+  getGameStats() {
+    return this.players;
   }
 }
 

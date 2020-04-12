@@ -1,7 +1,7 @@
 import CanvasService from "./CanvasService";
-import Game from "../models/Game";
 import Universe from "../models/Universe";
 import * as io from "socket.io-client";
+import GameStats from "../models/GameStats";
 
 class SocketService {
   socket: SocketIOClient.Socket;
@@ -13,45 +13,45 @@ class SocketService {
 
   onConnect() {
     this.socket.on('connect', () => {
-      this.onSpaceshipsUniverse();
+      this.onGameUniverse();
     });
   }
 
-  onSpaceshipsUniverse() {
-    this.socket.on('spaceships::universe', (universe: Universe) => {
+  onGameUniverse() {
+    this.socket.on('spaceships::game::universe', (universe: Universe) => {
       CanvasService.drawUniverse(universe, this.socket.id);
     });
   }
 
-  onSpaceshipsGame(setGame: Function, setId: Function) {
-    this.socket.on('spaceships::game', (players: string[]) => {
-      setGame(players);
+  onGameStats(setGameStats: Function, setId: Function) {
+    this.socket.on('spaceships::game::stats', (gameStats: GameStats) => {
+      setGameStats(new GameStats(gameStats));
       setId(this.socket.id);
     });
   }
 
-  emitAddShip(name: string) {
-    this.socket.emit('spaceships::ship', name);
+  emitPlayerStart(name: string) {
+    this.socket.emit('spaceships::player::start', name);
   }
 
-  emitAccelerating(accelerating: boolean) {
-    this.socket.emit('spaceships::ship::accelerating', accelerating);
+  emitKeyUp(accelerating: boolean) {
+    this.socket.emit('spaceships::player::key::up', accelerating);
   }
 
-  emitDecelerating(decelerating: boolean) {
-    this.socket.emit('spaceships::ship::decelerating', decelerating);
+  emitKeyDown(decelerating: boolean) {
+    this.socket.emit('spaceships::player::key::down', decelerating);
   }
 
-  emitRotatingRight(rotatingRight: boolean) {
-    this.socket.emit('spaceships::ship::rotating::right', rotatingRight);
+  emitKeyRight(rotatingRight: boolean) {
+    this.socket.emit('spaceships::player::key::right', rotatingRight);
   }
 
-  emitRotatingLeft(rotatingLeft: boolean) {
-    this.socket.emit('spaceships::ship::rotating::left', rotatingLeft);
+  emitKeyLeft(rotatingLeft: boolean) {
+    this.socket.emit('spaceships::player::key::left', rotatingLeft);
   }
 
-  emitShoot() {
-    this.socket.emit('spaceships::ship::shoot');
+  emitKeySpace() {
+    this.socket.emit('spaceships::player::key::space');
   }
 }
 

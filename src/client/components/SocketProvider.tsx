@@ -1,18 +1,19 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import SocketService from "../services/SocketService";
+import GameStats from "../models/GameStats";
 
 interface Props {
   children: JSX.Element[] | JSX.Element
 }
 
 export interface SocketContextProps {
-  game: string[];
+  gameStats: GameStats;
   id: string;
 }
 
 export const SocketContext = React.createContext<SocketContextProps>({
-  game: [],
+  gameStats: null,
   id: ''
 });
 
@@ -20,15 +21,15 @@ const SocketProvider = (props: Props) => {
 
   const {children} = props;
 
-  const [game, setGame] = useState([]);
+  const [gameStats, setGameStats] = useState(null);
   const [id, setId] = useState('');
 
   useEffect(() => {
-    SocketService.onSpaceshipsGame(setGame, setId);
+    SocketService.onGameStats(setGameStats, setId);
   }, []);
 
   const context: SocketContextProps = {
-    game: game,
+    gameStats: gameStats,
     id: id
   };
 

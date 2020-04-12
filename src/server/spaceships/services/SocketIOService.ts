@@ -11,78 +11,78 @@ class SocketIOService {
   init(server: Server) {
     this.io = SocketIO(server);
     this.onConnection();
-    this.emitUniverse();
-    this.emitGame();
+    this.emitGameUniverse();
+    this.emitGameStats();
   }
 
   onConnection() {
     this.io.on('connection', (socket: SocketIO.Socket) => {
       console.log('New connection: ', socket.id);
 
-      this.onAddShip(socket);
-      this.onAccelerating(socket);
-      this.onDecelerating(socket);
-      this.onRotatingRight(socket);
-      this.onRotatingLeft(socket);
-      this.onShoot(socket)
+      this.onPlayerStart(socket);
+      this.onPlayerDisconnect(socket);
 
-      this.onDisconnect(socket);
+      this.onKeyUp(socket);
+      this.onKeyDown(socket);
+      this.onKeyRight(socket);
+      this.onKeyLeft(socket);
+      this.onKeySpace(socket)
     });
   }
 
-  onAddShip(socket: SocketIO.Socket) {
-    socket.on('spaceships::ship', (name: string) => {
-      ModuleService.game.connectPlayer(socket.id, name);
+  onPlayerStart(socket: SocketIO.Socket) {
+    socket.on('spaceships::player::start', (name: string) => {
+      ModuleService.game.startPlayer(socket.id, name);
     });
   }
 
-  onAccelerating(socket: SocketIO.Socket) {
-    socket.on('spaceships::ship::accelerating', (accelerating: boolean) => {
-      ModuleService.game.universe.setShipAccelerating(socket.id, accelerating);
+  onKeyUp(socket: SocketIO.Socket) {
+    socket.on('spaceships::player::key::up', (keydown: boolean) => {
+      ModuleService.game.universe.setShipAccelerating(socket.id, keydown);
     });
   }
 
-  onDecelerating(socket: SocketIO.Socket) {
-    socket.on('spaceships::ship::decelerating',  (decelerating: boolean) => {
-      ModuleService.game.universe.setShipDecelerating(socket.id, decelerating);
+  onKeyDown(socket: SocketIO.Socket) {
+    socket.on('spaceships::player::key::down',  (keydown: boolean) => {
+      ModuleService.game.universe.setShipDecelerating(socket.id, keydown);
     });
   }
 
-  onRotatingRight(socket: SocketIO.Socket) {
-    socket.on('spaceships::ship::rotating::right',  (rotatingRight: boolean) => {
-      ModuleService.game.universe.setShipRotatingRight(socket.id, rotatingRight);
+  onKeyRight(socket: SocketIO.Socket) {
+    socket.on('spaceships::player::key::right',  (keydown: boolean) => {
+      ModuleService.game.universe.setShipRotatingRight(socket.id, keydown);
     });
   }
 
-  onRotatingLeft(socket: SocketIO.Socket) {
-    socket.on('spaceships::ship::rotating::left',  (rotatingLeft: boolean) => {
-      ModuleService.game.universe.setShipRotatingLeft(socket.id, rotatingLeft);
+  onKeyLeft(socket: SocketIO.Socket) {
+    socket.on('spaceships::player::key::left',  (keydown: boolean) => {
+      ModuleService.game.universe.setShipRotatingLeft(socket.id, keydown);
     });
   }
 
-  onShoot(socket: SocketIO.Socket) {
-    socket.on('spaceships::ship::shoot',  () => {
+  onKeySpace(socket: SocketIO.Socket) {
+    socket.on('spaceships::player::key::space',  () => {
       ModuleService.game.universe.addShoot(socket.id);
     });
   }
 
-  onDisconnect(socket: SocketIO.Socket) {
+  onPlayerDisconnect(socket: SocketIO.Socket) {
     socket.on('disconnect', () => {
       console.log('Disconnect: ', socket.id);
       ModuleService.game.disconnectPlayer(socket.id);
     });
   }
 
-  emitUniverse() {
+  emitGameUniverse() {
     const emit = () => {
-      this.io.sockets.emit('spaceships::universe', ModuleService.game.universe);
+      this.io.sockets.emit('spaceships::game::universe', ModuleService.game.universe);
     };
     setInterval(emit, 1000/60);
   }
 
-  emitGame() {
+  emitGameStats() {
     const emit = () => {
-      this.io.sockets.emit('spaceships::game', ModuleService.game.getStats());
+      this.io.sockets.emit('spaceships::game::stats', ModuleService.game.getGameStats());
     };
     setInterval(emit, 1000/10)
   }
