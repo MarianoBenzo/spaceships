@@ -24,8 +24,8 @@ class SocketService {
   }
 
   onSpaceshipsGame(setGame: Function, setId: Function) {
-    this.socket.on('spaceships::game', (game: Game) => {
-      setGame(game);
+    this.socket.on('spaceships::game', (players: string[]) => {
+      setGame(players);
       setId(this.socket.id);
     });
   }

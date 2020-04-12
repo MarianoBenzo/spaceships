@@ -1,3 +1,5 @@
+export {}
+
 import Random from 'random';
 
 const Ship = require('./Ship.ts');
@@ -19,13 +21,11 @@ class Universe {
   }
 
   addShip(id: string, name: string) {
-    const playing = this.ships.some((ship: any) => ship.id === id);
-    if (!playing) {
-      const x = Random.uniform(0, this.width)();
-      const y = Random.uniform(0, this.height)();
-      const ship = new Ship.class(id, name, x, y, 0, 20, '#fff');
-      this.ships.push(ship);
-    }
+    const x = Random.uniform(0, this.width)();
+    const y = Random.uniform(0, this.height)();
+    const ship = new Ship(id, name, x, y, 0, 20, '#fff');
+    this.ships.push(ship);
+
   }
 
   removeShip(id: string) {
@@ -59,7 +59,7 @@ class Universe {
   addShoot(id: string) {
     const ship = this.ships.find(ship => ship.id === id);
     if (ship) {
-      const projectile = new Projectile.class(ship);
+      const projectile = new Projectile(ship);
       this.projectiles.push(projectile);
     }
   }
@@ -83,7 +83,6 @@ class Universe {
 
   updateShip() {
     this.ships.forEach(ship => {
-      if (ship.life <= 0) this.removeShip(ship.id);
       ship.move(this.width, this.height);
     });
   }
@@ -98,9 +97,4 @@ class Universe {
   }
 }
 
-const instance = new Universe();
-
-module.exports = {
-  class: Universe,
-  instance: instance
-}
+module.exports = Universe;

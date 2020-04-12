@@ -1,8 +1,9 @@
+export {}
+
 import SocketIO from 'socket.io';
 import {Server} from 'http';
 
-const Universe = require('../models/Universe.ts')
-const Game = require('../models/Game.ts')
+const ModuleService = require('../services/ModulesService.ts');
 
 class SocketIOService {
   io: SocketIO.Server;
@@ -31,66 +32,60 @@ class SocketIOService {
 
   onAddShip(socket: SocketIO.Socket) {
     socket.on('spaceships::ship', (name: string) => {
-      Universe.instance.addShip(socket.id, name);
+      ModuleService.game.connectPlayer(socket.id, name);
     });
   }
 
   onAccelerating(socket: SocketIO.Socket) {
     socket.on('spaceships::ship::accelerating', (accelerating: boolean) => {
-      Universe.instance.setShipAccelerating(socket.id, accelerating);
+      ModuleService.game.universe.setShipAccelerating(socket.id, accelerating);
     });
   }
 
   onDecelerating(socket: SocketIO.Socket) {
     socket.on('spaceships::ship::decelerating',  (decelerating: boolean) => {
-      Universe.instance.setShipDecelerating(socket.id, decelerating);
+      ModuleService.game.universe.setShipDecelerating(socket.id, decelerating);
     });
   }
 
   onRotatingRight(socket: SocketIO.Socket) {
     socket.on('spaceships::ship::rotating::right',  (rotatingRight: boolean) => {
-      Universe.instance.setShipRotatingRight(socket.id, rotatingRight);
+      ModuleService.game.universe.setShipRotatingRight(socket.id, rotatingRight);
     });
   }
 
   onRotatingLeft(socket: SocketIO.Socket) {
     socket.on('spaceships::ship::rotating::left',  (rotatingLeft: boolean) => {
-      Universe.instance.setShipRotatingLeft(socket.id, rotatingLeft);
+      ModuleService.game.universe.setShipRotatingLeft(socket.id, rotatingLeft);
     });
   }
 
   onShoot(socket: SocketIO.Socket) {
     socket.on('spaceships::ship::shoot',  () => {
-      Universe.instance.addShoot(socket.id);
+      ModuleService.game.universe.addShoot(socket.id);
     });
   }
 
   onDisconnect(socket: SocketIO.Socket) {
     socket.on('disconnect', () => {
       console.log('Disconnect: ', socket.id);
-      Universe.instance.removeShip(socket.id);
+      ModuleService.game.disconnectPlayer(socket.id);
     });
   }
 
   emitUniverse() {
     const emit = () => {
-      this.io.sockets.emit('spaceships::universe', Universe.instance);
+      this.io.sockets.emit('spaceships::universe', ModuleService.game.universe);
     };
     setInterval(emit, 1000/60);
   }
 
   emitGame() {
     const emit = () => {
-      const game = new Game.class(Universe.instance);
-      this.io.sockets.emit('spaceships::game', game);
+      this.io.sockets.emit('spaceships::game', ModuleService.game.getStats());
     };
     setInterval(emit, 1000/10)
   }
 }
 
-const instance = new SocketIOService();
-
-module.exports = {
-  class: SocketIOService,
-  instance: instance
-}
+module.exports = new SocketIOService();

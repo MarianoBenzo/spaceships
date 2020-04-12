@@ -1,3 +1,7 @@
+export {}
+
+const ModuleService = require('../services/ModulesService.ts');
+
 class Ship {
   id: string;
   name: string;
@@ -107,12 +111,11 @@ class Ship {
     const distance = Math.sqrt(Math.pow(this.x - projectile.x,2) + Math.pow(this.y - projectile.y,2));
     if (distance <= this.radius) {
       this.life -= 1;
+      if(this.life <= 0) ModuleService.game.killing(projectile.shipId, this.id);
       return true;
     }
     return false;
   }
 }
 
-module.exports = {
-  class: Ship
-}
+module.exports = Ship;

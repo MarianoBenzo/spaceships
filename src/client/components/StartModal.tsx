@@ -12,7 +12,7 @@ export const StartModal = () => {
   const [inputValue, setInputValue] = useState('');
   const [name, setName] = useState(null);
 
-  const playing = game && game.players.includes(id);
+  const playing = game && game.includes(id);
 
   const setNameAndConnect = () => {
     const name = inputValue === '' ? 'Player' : inputValue
