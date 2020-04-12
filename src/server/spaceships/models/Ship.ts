@@ -1,5 +1,3 @@
-export {}
-
 const ModuleService = require('../services/ModulesService.ts');
 
 class Ship {

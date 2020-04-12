@@ -1,5 +1,3 @@
-export {}
-
 import Random from 'random';
 
 const Ship = require('./Ship.ts');

@@ -1,8 +1,8 @@
 class ModulesService {
   game: any;
 
-  setGame(gameModule: any) {
-    this.game = gameModule
+  setGameModule(gameModule: any) {
+    this.game = gameModule;
   }
 }
 

@@ -3,7 +3,7 @@ import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 
-const ModuleService = require('./spaceships/services/ModulesService.ts');
+const ModulesService = require('./spaceships/services/ModulesService.ts');
 const SocketIOService = require('./spaceships/services/SocketIOService.ts')
 
 // initializing packages
@@ -20,7 +20,8 @@ export const server = app.listen(app.get('port'), () => {
   console.log(`Server on port ${app.get('port')}`);
 });
 
-ModuleService.setGame(require('./spaceships/models/Game.ts'))
+// modules service
+ModulesService.setGameModule(require('./spaceships/models/Game.ts'));
 
 // socket io
 SocketIOService.init(server);
