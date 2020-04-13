@@ -30,6 +30,11 @@ class Game {
     this.universe.addShip(id, name);
   }
 
+  disconnectPlayer(id: string) {
+    this.universe.removeShip(id);
+    this.players = this.players.filter(player => player.id !== id);
+  }
+
   killing(killerId: string, victimId: string) {
     const killer = this.players.find(player => player.id === killerId);
     const victim = this.players.find(player => player.id === victimId);
@@ -38,9 +43,18 @@ class Game {
     this.universe.removeShip(victimId);
   }
 
-  disconnectPlayer(id: string) {
-    this.universe.removeShip(id);
-    this.players = this.players.filter(player => player.id !== id);
+  onPlayerKey(id: string, key: string, keydown: boolean) {
+    if (key === 'up') {
+      this.universe.setShipAccelerating(id, keydown);
+    } else if (key === 'down') {
+      this.universe.setShipDecelerating(id, keydown);
+    } else if (key === 'right') {
+      this.universe.setShipRotatingRight(id, keydown);
+    } else if (key === 'left') {
+      this.universe.setShipRotatingLeft(id, keydown);
+    } else if (key === 'space') {
+      if(keydown) this.universe.addShoot(id);
+    }
   }
 
   getGameStats() {

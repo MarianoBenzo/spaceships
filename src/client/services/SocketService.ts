@@ -34,24 +34,8 @@ class SocketService {
     this.socket.emit('spaceships::player::start', name);
   }
 
-  emitKeyUp(accelerating: boolean) {
-    this.socket.emit('spaceships::player::key::up', accelerating);
-  }
-
-  emitKeyDown(decelerating: boolean) {
-    this.socket.emit('spaceships::player::key::down', decelerating);
-  }
-
-  emitKeyRight(rotatingRight: boolean) {
-    this.socket.emit('spaceships::player::key::right', rotatingRight);
-  }
-
-  emitKeyLeft(rotatingLeft: boolean) {
-    this.socket.emit('spaceships::player::key::left', rotatingLeft);
-  }
-
-  emitKeySpace() {
-    this.socket.emit('spaceships::player::key::space');
+  emitPlayerKey(key: string, keydown: boolean) {
+    this.socket.emit('spaceships::player::key', {key: key, keydown: keydown});
   }
 }
 

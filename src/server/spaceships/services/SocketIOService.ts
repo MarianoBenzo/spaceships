@@ -22,11 +22,7 @@ class SocketIOService {
       this.onPlayerStart(socket);
       this.onPlayerDisconnect(socket);
 
-      this.onKeyUp(socket);
-      this.onKeyDown(socket);
-      this.onKeyRight(socket);
-      this.onKeyLeft(socket);
-      this.onKeySpace(socket)
+      this.onPlayerKey(socket);
     });
   }
 
@@ -36,33 +32,9 @@ class SocketIOService {
     });
   }
 
-  onKeyUp(socket: SocketIO.Socket) {
-    socket.on('spaceships::player::key::up', (keydown: boolean) => {
-      ModuleService.game.universe.setShipAccelerating(socket.id, keydown);
-    });
-  }
-
-  onKeyDown(socket: SocketIO.Socket) {
-    socket.on('spaceships::player::key::down',  (keydown: boolean) => {
-      ModuleService.game.universe.setShipDecelerating(socket.id, keydown);
-    });
-  }
-
-  onKeyRight(socket: SocketIO.Socket) {
-    socket.on('spaceships::player::key::right',  (keydown: boolean) => {
-      ModuleService.game.universe.setShipRotatingRight(socket.id, keydown);
-    });
-  }
-
-  onKeyLeft(socket: SocketIO.Socket) {
-    socket.on('spaceships::player::key::left',  (keydown: boolean) => {
-      ModuleService.game.universe.setShipRotatingLeft(socket.id, keydown);
-    });
-  }
-
-  onKeySpace(socket: SocketIO.Socket) {
-    socket.on('spaceships::player::key::space',  () => {
-      ModuleService.game.universe.addShoot(socket.id);
+  onPlayerKey(socket: SocketIO.Socket) {
+    socket.on('spaceships::player::key', ({key, keydown}) => {
+      ModuleService.game.onPlayerKey(socket.id, key, keydown);
     });
   }
 

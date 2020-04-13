@@ -35,7 +35,7 @@ export const StartModal = () => {
             <input type="text"
                    value={inputValue}
                    placeholder="Player"
-                   onChange={e => setInputValue(e.target.value.slice(0, 20))}/>
+                   onChange={e => setInputValue(e.target.value.slice(0, 15))}/>
             <button onClick={setNameAndConnect}>
               Play
             </button>
@@ -44,7 +44,7 @@ export const StartModal = () => {
         { player && !player.alive &&
           <>
             <div>You died</div>
-            <button onClick={() => start(name)}>
+            <button onClick={() => start(player.name)}>
               Respawn
             </button>
           </>

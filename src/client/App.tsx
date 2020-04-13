@@ -3,12 +3,14 @@ import * as ReactDOM from 'react-dom';
 import SocketProvider from "./components/SocketProvider";
 import {Canvas} from "./components/Canvas";
 import {StartModal} from "./components/StartModal";
+import {GameStats} from "./components/GameStats";
 
 const App = () => {
   return (
     <SocketProvider>
-      <StartModal/>
       <Canvas/>
+      <GameStats/>
+      <StartModal/>
     </SocketProvider>
   )
 };
