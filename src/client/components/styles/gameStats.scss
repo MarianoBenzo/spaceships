@@ -17,10 +17,14 @@
     font-size: 12px;
   }
 
+  th {
+    padding-bottom: 5px;
+  }
+
   tr {
     text-align: center;
 
-    :not(:last-child) {
+    & > :not(:last-child) {
       padding-right: 5px;
     }
   }

@@ -7,6 +7,12 @@ class Game {
   constructor() {
     this.universe = new Universe();
     this.players = [];
+
+    setInterval(this.update.bind(this), 1000 / 60);
+  }
+
+  update() {
+    this.universe.update();
   }
 
   startPlayer(id: string, name: string) {

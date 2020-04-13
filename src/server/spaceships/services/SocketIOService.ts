@@ -49,6 +49,7 @@ class SocketIOService {
     const emit = () => {
       this.io.sockets.emit('spaceships::game::universe', ModuleService.game.universe);
     };
+
     setInterval(emit, 1000/60);
   }
 

@@ -14,8 +14,6 @@ class Universe {
     this.height = 1000;
     this.ships = [];
     this.projectiles = [];
-
-    setInterval(this.update.bind(this), 1000 / 60);
   }
 
   addShip(id: string, name: string) {
