@@ -19,9 +19,13 @@ class Universe {
   addShip(id: string, name: string) {
     const x = Random.uniform(0, this.width)();
     const y = Random.uniform(0, this.height)();
-    const ship = new Ship(id, name, x, y, 0, 20, '#fff');
+    const ship = new Ship(id, name, 500, x, y, 0, 30, '#fff');
     this.ships.push(ship);
+  }
 
+  addProjectile(ship: any) {
+    const projectile = new Projectile(ship);
+    this.projectiles.push(projectile);
   }
 
   removeShip(id: string) {
@@ -32,63 +36,12 @@ class Universe {
     this.projectiles = this.projectiles.filter(p => p !== projectile);
   }
 
-  setShipAccelerating(id: string, accelerating: boolean) {
-    const ship = this.ships.find(ship => ship.id === id);
-    if (ship) ship.setAccelerating(accelerating);
-  }
-
-  setShipDecelerating(id: string, decelerating: boolean) {
-    const ship = this.ships.find(ship => ship.id === id);
-    if (ship) ship.setDecelerating(decelerating);
-  }
-
-  setShipRotatingRight(id: string, rotatingRight: boolean) {
-    const ship = this.ships.find(ship => ship.id === id);
-    if (ship) ship.setRotatingRight(rotatingRight);
-  }
-
-  setShipRotatingLeft(id: string, rotatingLeft: boolean) {
-    const ship = this.ships.find(ship => ship.id === id);
-    if (ship) ship.setRotatingLeft(rotatingLeft);
-  }
-
-  addShoot(id: string) {
-    const ship = this.ships.find(ship => ship.id === id);
-    if (ship) {
-      const projectile = new Projectile(ship);
-      this.projectiles.push(projectile);
-    }
-  }
-
   update() {
-    this.updateCollisions();
-    this.updateShip();
-    this.updateProjectile();
-  }
-
-  updateCollisions() {
     this.ships.forEach(ship => {
-      this.projectiles.forEach(projectile => {
-        if (ship.id !== projectile.shipId) {
-          const collision = ship.projectileCollision(projectile);
-          if (collision) this.removeProjectile(projectile);
-        }
-      });
+      ship.update(this.width, this.height);
     });
-  }
-
-  updateShip() {
-    this.ships.forEach(ship => {
-      ship.move(this.width, this.height);
-    });
-  }
-
-  updateProjectile() {
     this.projectiles.forEach(projectile => {
-      if(projectile.x === 0 || projectile.x === this.width || projectile.y === 0 || projectile.y === this.height) {
-        this.removeProjectile(projectile);
-      }
-      projectile.move(this.width, this.height)
+      projectile.update(this.width, this.height);
     });
   }
 }

@@ -1,9 +1,13 @@
+export {}
+
 const ModuleService = require('../services/ModulesService.ts');
 
 class Ship {
   id: string;
   name: string;
+  maxLife: number;
   life: number;
+  recoveryTime: number;
   x: number;
   y: number;
   vx: number;
@@ -24,10 +28,12 @@ class Ship {
   rotatingRight: boolean;
   rotatingLeft: boolean;
 
-  constructor(id: string, name: string, x: number, y: number, angle: number, size: number, color: string) {
+  constructor(id: string, name: string, maxLife: number, x: number, y: number, angle: number, size: number, color: string) {
     this.id = id;
     this.name = name;
-    this.life = 5;
+    this.maxLife = maxLife;
+    this.life = maxLife;
+    this.recoveryTime = 0;
     this.x = x;
     this.y = y;
     this.vx = 0;
@@ -63,6 +69,13 @@ class Ship {
 
   setRotatingLeft(rotatingLeft: boolean) {
     this.rotatingLeft = rotatingLeft;
+  }
+
+  update(universeWidth: number, universeHeight: number) {
+    this.recoveryTime = Math.max(0, this.recoveryTime - 1);
+    this.heal();
+    this.projectileCollision();
+    this.move(universeWidth, universeHeight);
   }
 
   move(universeWidth: number, universeHeight: number) {
@@ -105,14 +118,29 @@ class Ship {
     }
   }
 
-  projectileCollision(projectile: any): boolean {
-    const distance = Math.sqrt(Math.pow(this.x - projectile.x,2) + Math.pow(this.y - projectile.y,2));
-    if (distance <= this.radius) {
-      this.life -= 1;
-      if(this.life <= 0) ModuleService.game.killing(projectile.shipId, this.id);
-      return true;
+  projectileCollision() {
+    ModuleService.game.universe.projectiles.forEach(projectile => {
+      if (this.id !== projectile.shipId) {
+        const distance = Math.sqrt(Math.pow(this.x - projectile.x,2) + Math.pow(this.y - projectile.y,2));
+
+        if (distance <= this.radius) {
+          if(this.life > projectile.damage) {
+            this.life -= projectile.damage;
+            this.recoveryTime = 60 * 5;
+          } else {
+            ModuleService.game.addKill(projectile.shipId, this.id);
+            ModuleService.game.universe.removeShip(this.id);
+          }
+          ModuleService.game.universe.removeProjectile(projectile);
+        }
+      }
+    });
+  }
+
+  heal() {
+    if(this.recoveryTime === 0) {
+      this.life = Math.min(this.maxLife, this.life + 1);
     }
-    return false;
   }
 }
 

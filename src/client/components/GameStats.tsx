@@ -32,24 +32,28 @@ export const GameStats = () => {
   return (
     <div className={styles.container}>
       <table>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Kills</th>
-          <th>Deaths</th>
-        </tr>
-        {
-          playersSorted.map((player: Player, index: number) => {
-            return (
-              <tr className={player.id === id ? styles.red : ''}>
-                <td>{index + 1}.</td>
-                <td>{player.name}</td>
-                <td>{player.kills}</td>
-                <td>{player.deaths}</td>
-              </tr>
-            )
-          })
-        }
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Kills</th>
+            <th>Deaths</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            playersSorted.map((player: Player, index: number) => {
+              return (
+                <tr className={player.id === id ? styles.red : ''} key={index}>
+                  <td>{index + 1}.</td>
+                  <td>{player.name}</td>
+                  <td>{player.kills}</td>
+                  <td>{player.deaths}</td>
+                </tr>
+              )
+            })
+          }
+        </tbody>
       </table>
     </div>
   );

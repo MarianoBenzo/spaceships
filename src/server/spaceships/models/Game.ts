@@ -41,25 +41,27 @@ class Game {
     this.players = this.players.filter(player => player.id !== id);
   }
 
-  killing(killerId: string, victimId: string) {
+  addKill(killerId: string, victimId: string) {
     const killer = this.players.find(player => player.id === killerId);
     const victim = this.players.find(player => player.id === victimId);
     killer.addKill();
-    victim.kill();
-    this.universe.removeShip(victimId);
+    victim.addDeath();
   }
 
   onPlayerKey(id: string, key: string, keydown: boolean) {
-    if (key === 'up') {
-      this.universe.setShipAccelerating(id, keydown);
-    } else if (key === 'down') {
-      this.universe.setShipDecelerating(id, keydown);
-    } else if (key === 'right') {
-      this.universe.setShipRotatingRight(id, keydown);
-    } else if (key === 'left') {
-      this.universe.setShipRotatingLeft(id, keydown);
-    } else if (key === 'space') {
-      if(keydown) this.universe.addShoot(id);
+    const ship = this.universe.ships.find(ship => ship.id === id);
+    if (ship) {
+      if (key === 'up') {
+        ship.setAccelerating(keydown);
+      } else if (key === 'down') {
+        ship.setDecelerating(keydown);
+      } else if (key === 'right') {
+        ship.setRotatingRight(keydown);
+      } else if (key === 'left') {
+        ship.setRotatingLeft(keydown);
+      } else if (key === 'space') {
+        if (keydown) this.universe.addProjectile(ship);
+      }
     }
   }
 
@@ -83,17 +85,17 @@ class Player {
     this.deaths = 0;
   }
 
-  kill() {
-    this.deaths += 1;
-    this.alive = false;
-  }
-
   revive() {
     this.alive = true;
   }
 
   addKill() {
     this.kills += 1;
+  }
+
+  addDeath() {
+    this.deaths += 1;
+    this.alive = false;
   }
 }
 

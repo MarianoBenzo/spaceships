@@ -99,10 +99,38 @@ class CanvasService {
   drawShip(ship: Ship) {
     this.ctx.save();
     this.ctx.translate(ship.x + this.viewport.x, ship.y + this.viewport.y);
+
+    // name
     this.ctx.font = '15px sans-serif';
     this.ctx.textAlign = 'center';
     this.ctx.fillStyle = '#000000';
-    this.ctx.fillText(ship.name, 0, 35);
+    this.ctx.fillText(ship.name, 0, ship.radius + 15);
+
+    //life
+    this.ctx.lineWidth = 3;
+    this.ctx.strokeStyle = this.getLifeColor(ship.life, ship.maxLife);
+    this.ctx.beginPath();
+    this.ctx.moveTo(
+      -(ship.maxLife / 10) / 2,
+      ship.radius + 25);
+    this.ctx.lineTo(
+      ((ship.maxLife / 10) / 2) - ((ship.maxLife - ship.life) / 10),
+      ship.radius + 25);
+    this.ctx.stroke();
+    this.ctx.closePath()
+
+    this.ctx.lineWidth = 1.5;
+    this.ctx.strokeStyle = '#000000';
+    this.ctx.beginPath();
+    this.ctx.strokeRect(
+      -(ship.maxLife / 10) / 2,
+      ship.radius + 25 - 2.5,
+      ship.maxLife / 10,
+      5
+    );
+    this.ctx.closePath()
+
+    // body
     this.ctx.rotate(ship.angle);
     this.ctx.lineWidth = 3;
     this.ctx.strokeStyle = '#000000';
@@ -138,6 +166,32 @@ class CanvasService {
     this.ctx.stroke();
     this.ctx.restore();
   }
+
+  getLifeColor(life: number, maxLife: number) {
+    let value = life / maxLife;
+    value = Math.min(Math.max(0,value), 1) * 510;
+
+    let redValue;
+    let greenValue;
+    if (value < 255) {
+      redValue = 255;
+      greenValue = Math.sqrt(value) * 16;
+      greenValue = Math.round(greenValue);
+    } else {
+      greenValue = 255;
+      value = value - 255;
+      redValue = 255 - (value * value / 255)
+      redValue = Math.round(redValue);
+    }
+
+    return "#" + this.intToHex(redValue) + this.intToHex(greenValue) + "00";
+  }
+
+  intToHex(i) {
+    const hex = parseInt(i).toString(16);
+    return (hex.length < 2) ? "0" + hex : hex;
+  }
+
 }
 
 export default new CanvasService();
