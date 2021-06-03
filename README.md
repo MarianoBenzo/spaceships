@@ -1,3 +1,3 @@
 # Spaceships
 
-### https://marianobenzo.herokuapp.com/
+### https://marianobenzo-spaceships.herokuapp.com/
